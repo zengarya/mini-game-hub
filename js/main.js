@@ -51,9 +51,7 @@
       game.id +
       '" class="game-card">' +
       '  <div class="game-thumb" style="background:' + bg + '">' +
-      '    <span class="game-thumb-icon">' +
-      (game.icon || game.title.charAt(0)) +
-      "</span>" +
+      '    <canvas class="game-thumb-canvas" data-game="' + game.id + '"></canvas>' +
       '    <span class="game-category-tag">' +
       game.category +
       "</span>" +
@@ -122,6 +120,9 @@
       : '<div class="empty-state"><p>No games found for "' +
         (search || category) +
         '"</p><a href="/" class="btn-back">Back to Home</a></div>';
+
+    // 绘制缩略图封面
+    setTimeout(function() { renderAllThumbnails(); }, 10);
 
     // 渲染搜索结果提示
     if (search) {

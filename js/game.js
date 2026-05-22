@@ -88,9 +88,7 @@
         g.id +
         '" class="game-card">' +
         '  <div class="game-thumb" style="background:' + bg + '">' +
-        '    <span class="game-thumb-icon">' +
-        (g.icon || g.title.charAt(0)) +
-        "</span>" +
+        '    <canvas class="game-thumb-canvas" data-game="' + g.id + '"></canvas>' +
         "  </div>" +
         '  <div class="game-info">' +
         '    <h3 class="game-title">' +
@@ -101,6 +99,9 @@
       );
     })
     .join("");
+
+  // 绘制相关游戏缩略图
+  setTimeout(function() { renderAllThumbnails(); }, 10);
 
   // 全屏按钮
   document.getElementById("btn-fullscreen").addEventListener("click", function () {
