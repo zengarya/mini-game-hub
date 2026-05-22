@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Memory Match</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center}
+#info{color:#fff;font-size:18px;margin-bottom:16px;font-weight:600}
+#board{display:grid;grid-template-columns:repeat(4,80px);gap:8px;justify-content:center}
+.card{width:80px;height:100px;border-radius:8px;cursor:pointer;font-size:40px;display:flex;align-items:center;justify-content:center;background:#2a2a4a;transition:all 0.2s;user-select:none}
+.card.flipped{background:#667eea}
+.card.matched{background:#43e97b;pointer-events:none}
+button{margin-top:16px;padding:10px 28px;font-size:16px;background:#ff6b6b;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="info">Pairs: 0 / 8</div>
+<div id="board"></div>
+<button onclick="reset()">New Game</button>
+</div>
+<script>
+var icons=["🐶","🐱","🐸","🦊","🐼","🐨","🐙","🦄","🐶","🐱","🐸","🦊","🐼","🐨","🐙","🦄"];
+var flipped=[],matched=[],pairs=0,locked=false;
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function reset(){icons=shuffle(icons);flipped=[];matched=[];pairs=0;locked=false;document.getElementById("info").textContent="Pairs: 0 / 8";render()}
+function flip(i){if(locked||flipped.indexOf(i)!==-1||matched.indexOf(i)!==-1||flipped.length>=2)return;flipped.push(i);render();if(flipped.length===2){locked=true;if(icons[flipped[0]]===icons[flipped[1]]){matched.push(flipped[0],flipped[1]);pairs++;document.getElementById("info").textContent="Pairs: "+pairs+" / 8";flipped=[];locked=false;if(pairs===8)document.getElementById("info").textContent="You Win! 🎉"}else{setTimeout(function(){flipped=[];locked=false;render()},600)}}
+}
+function render(){var b=document.getElementById("board");b.innerHTML="";for(var i=0;i<16;i++){var d=document.createElement("div");d.className="card";if(flipped.indexOf(i)!==-1||matched.indexOf(i)!==-1){d.classList.add("flipped");if(matched.indexOf(i)!==-1)d.classList.add("matched");d.textContent=icons[i]}else{d.textContent="?"}d.addEventListener("click",(function(j){return function(){flip(j)}})(i));b.appendChild(d)}}
+reset();
+</script>
+</body>
+</html>

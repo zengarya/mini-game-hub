@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pong</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#score{position:absolute;top:20px;left:50%;transform:translateX(-50%);color:#fff;font-size:24px;font-weight:800}
+canvas{border:2px solid #333;border-radius:4px}
+</style>
+</head>
+<body>
+<div id="score">0 - 0</div>
+<canvas id="c"></canvas>
+<script>
+var c=document.getElementById("c"),ctx=c.getContext("2d"),W=500,H=350;
+c.width=W;c.height=H;c.style.maxWidth="95vw";c.style.maxHeight="80vh";
+var pw=12,ph=80,ball={x:W/2,y:H/2,r:8,vx:5,vy:4},p1=H/2-ph/2,p2=H/2-ph/2,s1=0,s2=0,aiSpeed=4;
+function reset(){ball.x=W/2;ball.y=H/2;ball.vx=(Math.random()>0.5?5:-5);ball.vy=(Math.random()-0.5)*8}
+function update(){ball.x+=ball.vx;ball.y+=ball.vy;if(ball.y-ball.r<0||ball.y+ball.r>H)ball.vy*=-1;
+if(ball.x-ball.r<pw+30&&ball.y>p1&&ball.y<p1+ph){ball.vx*=-1;ball.vx*=1.05;ball.x=pw+30+ball.r}
+if(ball.x+ball.r>W-pw-30&&ball.y>p2&&ball.y<p2+ph){ball.vx*=-1;ball.vx*=1.05;ball.x=W-pw-30-ball.r}
+if(ball.x<0){s2++;document.getElementById("score").textContent=s1+" - "+s2;reset()}
+if(ball.x>W){s1++;document.getElementById("score").textContent=s1+" - "+s2;reset()}
+p2+=(ball.y-(p2+ph/2))*0.12;if(p2<0)p2=0;if(p2>H-ph)p2=H-ph}
+function draw(){ctx.fillStyle="#0f0f1a";ctx.fillRect(0,0,W,H);for(var i=0;i<H;i+=20){ctx.fillStyle="#2a2a4a";ctx.fillRect(W/2-1,i,2,10)}ctx.fillStyle="#4facfe";ctx.fillRect(30,p1,pw,ph);ctx.fillStyle="#ff6b6b";ctx.fillRect(W-30-pw,p2,pw,ph);ctx.fillStyle="#ffd93d";ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill()}
+function loop(){update();draw();requestAnimationFrame(loop)}
+c.addEventListener("mousemove",function(e){var rect=c.getBoundingClientRect();p1=(e.clientY-rect.top)*(H/rect.height)-ph/2;if(p1<0)p1=0;if(p1>H-ph)p1=H-ph});
+loop();
+</script>
+</body>
+</html>

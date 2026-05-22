@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Bubble Pop</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+canvas{display:block}
+#score{position:absolute;top:20px;left:50%;transform:translateX(-50%);color:#fff;font-size:22px;font-weight:700}
+</style>
+</head>
+<body>
+<div id="score">Score: 0</div>
+<canvas id="c"></canvas>
+<script>
+var c=document.getElementById("c"),ctx=c.getContext("2d"),W=420,H=600;
+c.width=W;c.height=H;c.style.maxWidth="95vw";c.style.maxHeight="95vh";
+var bubbles=[],score=0,shooter={x:W/2,y:H-30},ball={x:W/2,y:H-30,r:10,vx:0,vy:0,active:false},rows=6,cols=8,br=18,gap=3,ox=(W-cols*(br*2+gap))/2+br,oy=50;
+var COLORS=["#ff6b6b","#4facfe","#ffd93d","#43e97b","#f77062","#a18cd1"];
+function buildBubbles(){bubbles=[];for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){var color=COLORS[Math.floor(Math.random()*COLORS.length)];bubbles.push({x:ox+c*(br*2+gap)+((r%2)?br+gap/2:0),y:oy+r*(br*2+gap-2),r:br,color:color,alive:true})}}
+function getColor(){return ball.color||COLORS[Math.floor(Math.random()*COLORS.length)]}
+function shoot(mx,my){if(ball.active)return;ball.x=shooter.x;ball.y=shooter.y;var angle=Math.atan2(my-shooter.y,mx-shooter.x);ball.vx=Math.cos(angle)*8;ball.vy=Math.sin(angle)*8;ball.color=getColor();ball.active=true}
+function update(){if(!ball.active)return;ball.x+=ball.vx;ball.y+=ball.vy;if(ball.x-ball.r<0||ball.x+ball.r>W)ball.vx*=-1;if(ball.y-ball.r<0)ball.vy*=-1;var hit=false;for(var i=bubbles.length-1;i>=0;i--){var b=bubbles[i];if(!b.alive)continue;var dx=ball.x-b.x,dy=ball.y-b.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<ball.r+b.r){b.alive=false;ball.active=false;ball.color=null;score+=10;document.getElementById("score").textContent="Score: "+score;hit=true;break}}if(!hit&&ball.y+ball.r>H){ball.active=false;ball.color=null}if(!bubbles.some(function(b){return b.alive})){buildBubbles()}}
+function draw(){ctx.fillStyle="#0f0f1a";ctx.fillRect(0,0,W,H);bubbles.forEach(function(b){if(b.alive){ctx.fillStyle=b.color;ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill()}});ctx.fillStyle=ball.color||"#fff";ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill();ctx.strokeStyle="rgba(255,255,255,0.3)";ctx.setLineDash([4,8]);ctx.beginPath();ctx.moveTo(shooter.x,shooter.y);ctx.lineTo(ball.active?ball.x:shooter.x,(ball.active?ball.y:shooter.y-20));ctx.stroke();ctx.setLineDash([])}
+function loop(){update();draw();requestAnimationFrame(loop)}
+c.addEventListener("click",function(e){var rect=c.getBoundingClientRect();var mx=(e.clientX-rect.left)*(W/rect.width);var my=(e.clientY-rect.top)*(H/rect.height);shoot(mx,my)});
+c.addEventListener("mousemove",function(e){var rect=c.getBoundingClientRect();shooter.x=(e.clientX-rect.left)*(W/rect.width)});
+buildBubbles();loop();
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sudoku</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center}
+#info{color:#fff;font-size:18px;margin-bottom:12px;font-weight:600}
+#board{display:grid;grid-template-columns:repeat(9,42px);gap:1px;background:#2a2a4a;padding:2px;border-radius:6px;margin-bottom:16px}
+.cell{width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;background:#1a1a2e;color:#e4e4ed;cursor:pointer;transition:background 0.1s}
+.cell.given{color:#4facfe;font-weight:700}
+.cell.selected{background:#2a2a4a;box-shadow:inset 0 0 0 2px #ff6b6b}
+.cell.error{color:#ff6b6b}
+.cell:nth-child(3n){border-right:2px solid #333}
+.cell:nth-child(27n+1),.cell:nth-child(27n+2),.cell:nth-child(27n+3),.cell:nth-child(27n+4),.cell:nth-child(27n+5),.cell:nth-child(27n+6),.cell:nth-child(27n+7),.cell:nth-child(27n+8),.cell:nth-child(27n+9){border-bottom:2px solid #333}
+#numpad{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:400px;margin:0 auto 12px}
+.num{width:38px;height:38px;border-radius:6px;background:#2a2a4a;color:#e4e4ed;border:none;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.1s}
+.num:hover{background:#3a3a5a}
+.num.clear{background:#ff6b6b;color:#fff;width:auto;padding:0 14px}
+button.newgame{padding:10px 28px;font-size:16px;background:#ff6b6b;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="info">Sudoku</div>
+<div id="board"></div>
+<div id="numpad">
+<button class="num" onclick="setNum(1)">1</button>
+<button class="num" onclick="setNum(2)">2</button>
+<button class="num" onclick="setNum(3)">3</button>
+<button class="num" onclick="setNum(4)">4</button>
+<button class="num" onclick="setNum(5)">5</button>
+<button class="num" onclick="setNum(6)">6</button>
+<button class="num" onclick="setNum(7)">7</button>
+<button class="num" onclick="setNum(8)">8</button>
+<button class="num" onclick="setNum(9)">9</button>
+<button class="num clear" onclick="setNum(0)">Erase</button>
+</div>
+<button class="newgame" onclick="newGame()">New Game</button>
+</div>
+<script>
+var puzzle, solution, given, board, selR=-1, selC=-1;
+var PUZZLES=[[
+[5,3,0,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],
+[8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],
+[0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]
+],[
+[0,0,0,2,6,0,7,0,1],[6,8,0,0,7,0,0,9,0],[1,9,0,0,0,4,5,0,0],
+[8,2,0,1,0,0,0,4,0],[0,0,4,6,0,2,9,0,0],[0,5,0,0,0,3,0,2,8],
+[0,0,9,3,0,0,0,7,4],[0,4,0,0,5,0,0,3,6],[7,0,3,0,1,8,0,0,0]
+]];
+function solve(grid){var g=JSON.parse(JSON.stringify(grid));if(solveHelper(g))return g;return null}
+function solveHelper(g){for(var r=0;r<9;r++)for(var c=0;c<9;c++){if(g[r][c]===0){for(var n=1;n<=9;n++){if(isValid(g,r,c,n)){g[r][c]=n;if(solveHelper(g))return true;g[r][c]=0}}return false}}return true}
+function isValid(g,row,col,num){for(var x=0;x<9;x++)if(g[row][x]===num||g[x][col]===num)return false;var sr=Math.floor(row/3)*3,sc=Math.floor(col/3)*3;for(var r=sr;r<sr+3;r++)for(var c=sc;c<sc+3;c++)if(g[r][c]===num)return false;return true}
+function newGame(){var p=PUZZLES[Math.floor(Math.random()*PUZZLES.length)];puzzle=JSON.parse(JSON.stringify(p));solution=solve(puzzle);given=[];board=JSON.parse(JSON.stringify(puzzle));for(var r=0;r<9;r++){given[r]=[];for(var c=0;c<9;c++)given[r][c]=puzzle[r][c]!==0}selR=-1;selC=-1;document.getElementById("info").textContent="Sudoku";render()}
+function select(r,c){if(given[r][c])return;selR=r;selC=c;render()}
+function setNum(n){if(selR===-1||selC===-1)return;board[selR][selC]=n;render();if(checkComplete()&&checkWin())document.getElementById("info").textContent="You Win!"}
+function checkComplete(){for(var r=0;r<9;r++)for(var c=0;c<9;c++)if(board[r][c]===0)return false;return true}
+function checkWin(){for(var r=0;r<9;r++)for(var c=0;c<9;c++)if(board[r][c]!==solution[r][c])return false;return true}
+function render(){var b=document.getElementById("board");b.innerHTML="";for(var r=0;r<9;r++)for(var c=0;c<9;c++){var d=document.createElement("div");d.className="cell";if(given[r][c])d.classList.add("given");if(r===selR&&c===selC)d.classList.add("selected");if(board[r][c]!==0){d.textContent=board[r][c];if(!given[r][c]&&solution&&board[r][c]!==solution[r][c])d.classList.add("error")}d.addEventListener("click",(function(rr,cc){return function(){select(rr,cc)}})(r,c));b.appendChild(d)}}
+newGame();
+</script>
+</body>
+</html>

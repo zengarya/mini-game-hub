@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Whack-a-Mole</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center;user-select:none}
+#score{color:#fff;font-size:22px;font-weight:700;margin-bottom:16px}
+#timer{color:#8a8aaa;font-size:16px;margin-bottom:8px}
+#grid{display:grid;grid-template-columns:repeat(3,100px);grid-template-rows:repeat(3,100px);gap:12px;justify-content:center}
+.hole{width:100px;height:100px;border-radius:50%;background:#2a2a4a;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:50px;position:relative;overflow:hidden;transition:background 0.1s}
+.hole.active{background:#43e97b}
+.hole.whacked{background:#ff6b6b}
+button{padding:10px 28px;margin-top:16px;font-size:16px;background:#ff6b6b;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="score">Score: 0</div>
+<div id="timer">Time: 30s</div>
+<div id="grid"></div>
+<button onclick="startGame()">Start Game</button>
+</div>
+<script>
+var score=0,time=30,activeHole=-1,loop,timerLoop,playing=false;
+function startGame(){score=0;time=30;activeHole=-1;playing=true;document.getElementById("score").textContent="Score: 0";document.getElementById("timer").textContent="Time: 30s";clearInterval(loop);clearInterval(timerLoop);spawnMole();timerLoop=setInterval(function(){time--;document.getElementById("timer").textContent="Time: "+time+"s";if(time<=0){playing=false;clearInterval(loop);clearInterval(timerLoop);activeHole=-1;render();document.getElementById("timer").textContent="Game Over! Score: "+score}}},1000)}
+function spawnMole(){if(!playing)return;activeHole=Math.floor(Math.random()*9);render();clearInterval(loop);loop=setInterval(function(){activeHole=Math.floor(Math.random()*9);render()},800)}
+function whack(i){if(!playing||activeHole!==i)return;score++;document.getElementById("score").textContent="Score: "+score;activeHole=-1;render();clearInterval(loop);setTimeout(spawnMole,200)}
+function render(){var g=document.getElementById("grid");g.innerHTML="";for(var i=0;i<9;i++){var d=document.createElement("div");d.className="hole";if(activeHole===i){d.classList.add("active");d.textContent="🐹"}d.addEventListener("click",(function(j){return function(){whack(j)}})(i));g.appendChild(d)}}
+render();
+</script>
+</body>
+</html>

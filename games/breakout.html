@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Breakout</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+canvas{border:2px solid #333;border-radius:4px}
+#score{position:absolute;top:20px;left:50%;transform:translateX(-50%);color:#fff;font-size:22px;font-weight:700}
+#msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:20px;text-align:center}
+</style>
+</head>
+<body>
+<div id="score">Score: 0</div>
+<div id="msg">Move mouse to play</div>
+<canvas id="c"></canvas>
+<script>
+var c=document.getElementById("c"),ctx=c.getContext("2d"),W=480,H=500;
+c.width=W;c.height=H;c.style.maxWidth="95vw";c.style.maxHeight="90vh";
+var paddle={w:80,h:14,x:W/2-40,y:H-30},ball={x:W/2,y:H-50,r:7,vx:4,vy:-4};
+var bricks=[],r=6,c=8,bw=52,bh=18,ox=28,oy=40,score=0,playing=false,lives=3;
+function buildBricks(){bricks=[];for(var i=0;i<r;i++)for(var j=0;j<c;j++)bricks.push({x:ox+j*(bw+4),y:oy+i*(bh+4),w:bw,h:bh,alive:true})}
+function reset(){paddle.x=W/2-paddle.w/2;ball.x=W/2;ball.y=H-60;ball.vx=4*(Math.random()>0.5?1:-1);ball.vy=-4;lives=3;score=0;playing=false;buildBricks();document.getElementById("msg").style.display="block";document.getElementById("msg").innerHTML="Move mouse to play<br><small>"+lives+" lives</small>";document.getElementById("score").textContent="Score: 0"}
+function update(){if(!playing)return;
+ball.x+=ball.vx;ball.y+=ball.vy;
+if(ball.x-ball.r<0||ball.x+ball.r>W)ball.vx*=-1;
+if(ball.y-ball.r<0)ball.vy*=-1;
+if(ball.y+ball.r>H){lives--;if(lives<=0){playing=false;document.getElementById("msg").style.display="block";document.getElementById("msg").innerHTML="Game Over! Score: "+score+"<br><small>Move mouse to retry</small>";return}ball.x=W/2;ball.y=H-60;ball.vy=-4;playing=false;document.getElementById("msg").style.display="block";document.getElementById("msg").innerHTML="Move mouse to play<br><small>"+lives+" lives</small>";return}
+if(ball.y+ball.r>paddle.y&&ball.y-ball.r<paddle.y+paddle.h&&ball.x>paddle.x&&ball.x<paddle.x+paddle.w){var hit=(ball.x-paddle.x)/paddle.w;ball.vx=(hit-0.5)*8;ball.vy=-Math.abs(ball.vy);ball.y=paddle.y-ball.r}
+for(var i=bricks.length-1;i>=0;i--){var b=bricks[i];if(b.alive&&ball.x+ball.r>b.x&&ball.x-ball.r<b.x+b.w&&ball.y+ball.r>b.y&&ball.y-ball.r<b.y+b.h){b.alive=false;ball.vy*=-1;score+=10;document.getElementById("score").textContent="Score: "+score;break}}
+var alive=bricks.some(function(b){return b.alive});if(!alive){playing=false;document.getElementById("msg").style.display="block";document.getElementById("msg").innerHTML="You Win! Score: "+score+"<br><small>Move mouse to replay</small>"}
+}
+function draw(){ctx.fillStyle="#0f0f1a";ctx.fillRect(0,0,W,H);bricks.forEach(function(b){if(b.alive){var hue=(b.x/W)*240+60;ctx.fillStyle="hsl("+hue+",70%,50%)";ctx.fillRect(b.x,b.y,b.w,b.h)}});ctx.fillStyle="#4facfe";ctx.fillRect(paddle.x,paddle.y,paddle.w,paddle.h);ctx.fillStyle="#ff6b6b";ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill()}
+function loop(){if(playing)update();draw();requestAnimationFrame(loop)}
+c.addEventListener("mousemove",function(e){var rect=c.getBoundingClientRect();var mx=(e.clientX-rect.left)*(W/rect.width);paddle.x=Math.max(0,Math.min(W-paddle.w,mx-paddle.w/2));if(!playing){playing=true;document.getElementById("msg").style.display="none"}if(lives<=0&&!playing)reset()});
+buildBricks();loop();
+</script>
+</body>
+</html>
