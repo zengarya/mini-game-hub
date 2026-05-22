@@ -10,6 +10,7 @@ var THUMB_COLORS = {
   girls:     "linear-gradient(135deg, #f77062, #fe5196)",
   board:     "linear-gradient(135deg, #a18cd1, #fbc2eb)",
   classic:   "linear-gradient(135deg, #ffd93d, #ff6b6b)",
+  word:      "linear-gradient(135deg, #ff9800, #f44336)",
 };
 
 var GAMES = [
@@ -17,6 +18,7 @@ var GAMES = [
   {
     id: "snake",
     title: "Classic Snake",
+    icon: "🐍",
     category: "arcade",
     thumbnail: "",
     embedUrl: "games/snake.html",
@@ -27,6 +29,7 @@ var GAMES = [
   {
     id: "flappy-flyer",
     title: "Flappy Flyer",
+    icon: "🐦",
     category: "arcade",
     thumbnail: "",
     embedUrl: "games/flappy-flyer.html",
@@ -37,6 +40,7 @@ var GAMES = [
   {
     id: "block-stack",
     title: "Block Stack",
+    icon: "🧊",
     category: "arcade",
     thumbnail: "",
     embedUrl: "games/block-stack.html",
@@ -47,6 +51,7 @@ var GAMES = [
   {
     id: "breakout",
     title: "Breakout",
+    icon: "🧱",
     category: "arcade",
     thumbnail: "",
     embedUrl: "games/breakout.html",
@@ -57,6 +62,7 @@ var GAMES = [
   {
     id: "paddle-battle",
     title: "Paddle Battle",
+    icon: "🏓",
     category: "arcade",
     thumbnail: "",
     embedUrl: "games/paddle-battle.html",
@@ -67,6 +73,7 @@ var GAMES = [
   {
     id: "simon-says",
     title: "Simon Says",
+    icon: "🎨",
     category: "arcade",
     thumbnail: "",
     embedUrl: "games/simon-says.html",
@@ -79,6 +86,7 @@ var GAMES = [
   {
     id: "2048",
     title: "2048",
+    icon: "🔢",
     category: "puzzle",
     thumbnail: "",
     embedUrl: "games/2048.html",
@@ -89,6 +97,7 @@ var GAMES = [
   {
     id: "sudoku",
     title: "Sudoku Master",
+    icon: "🧩",
     category: "puzzle",
     thumbnail: "",
     embedUrl: "games/sudoku.html",
@@ -99,6 +108,7 @@ var GAMES = [
   {
     id: "minesweeper",
     title: "Minesweeper",
+    icon: "💣",
     category: "puzzle",
     thumbnail: "",
     embedUrl: "games/minesweeper.html",
@@ -109,6 +119,7 @@ var GAMES = [
   {
     id: "memory",
     title: "Memory Match",
+    icon: "🧠",
     category: "puzzle",
     thumbnail: "",
     embedUrl: "games/memory.html",
@@ -119,6 +130,7 @@ var GAMES = [
   {
     id: "bubble-pop",
     title: "Bubble Pop",
+    icon: "🫧",
     category: "puzzle",
     thumbnail: "",
     embedUrl: "games/bubble-pop.html",
@@ -129,6 +141,7 @@ var GAMES = [
   {
     id: "color-crush",
     title: "Color Crush",
+    icon: "💎",
     category: "puzzle",
     thumbnail: "",
     embedUrl: "games/color-crush.html",
@@ -139,6 +152,7 @@ var GAMES = [
   {
     id: "solitaire-lite",
     title: "Solitaire Lite",
+    icon: "🃏",
     category: "puzzle",
     thumbnail: "",
     embedUrl: "games/solitaire-lite.html",
@@ -149,6 +163,7 @@ var GAMES = [
   {
     id: "number-guess",
     title: "Number Guess",
+    icon: "🎯",
     category: "puzzle",
     thumbnail: "",
     embedUrl: "games/number-guess.html",
@@ -161,6 +176,7 @@ var GAMES = [
   {
     id: "whack-a-mole",
     title: "Whack-a-Mole",
+    icon: "🔨",
     category: "action",
     thumbnail: "",
     embedUrl: "games/whack-a-mole.html",
@@ -171,6 +187,7 @@ var GAMES = [
   {
     id: "speed-tap",
     title: "Speed Tap",
+    icon: "⚡",
     category: "action",
     thumbnail: "",
     embedUrl: "games/speed-tap.html",
@@ -181,6 +198,7 @@ var GAMES = [
   {
     id: "car-dodge",
     title: "Car Dodge",
+    icon: "🚗",
     category: "action",
     thumbnail: "",
     embedUrl: "games/car-dodge.html",
@@ -193,6 +211,7 @@ var GAMES = [
   {
     id: "word-guess",
     title: "Word Guess",
+    icon: "📝",
     category: "word",
     thumbnail: "",
     embedUrl: "games/word-guess.html",
@@ -205,6 +224,7 @@ var GAMES = [
   {
     id: "connect-four",
     title: "Connect Four",
+    icon: "🔴",
     category: "strategy",
     thumbnail: "",
     embedUrl: "games/connect-four.html",
@@ -219,6 +239,8 @@ var CATEGORIES = [
   { name: "Arcade", slug: "arcade", icon: "🕹️" },
   { name: "Puzzle", slug: "puzzle", icon: "🧩" },
   { name: "Action", slug: "action", icon: "⚡" },
+  { name: "Word", slug: "word", icon: "📝" },
+  { name: "Strategy", slug: "strategy", icon: "🎯" },
 ];
 
 var POPULAR_TAGS = [

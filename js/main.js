@@ -52,7 +52,7 @@
       '" class="game-card">' +
       '  <div class="game-thumb" style="background:' + bg + '">' +
       '    <span class="game-thumb-icon">' +
-      game.title.charAt(0) +
+      (game.icon || game.title.charAt(0)) +
       "</span>" +
       '    <span class="game-category-tag">' +
       game.category +

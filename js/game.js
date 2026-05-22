@@ -89,7 +89,7 @@
         '" class="game-card">' +
         '  <div class="game-thumb" style="background:' + bg + '">' +
         '    <span class="game-thumb-icon">' +
-        g.title.charAt(0) +
+        (g.icon || g.title.charAt(0)) +
         "</span>" +
         "  </div>" +
         '  <div class="game-info">' +
