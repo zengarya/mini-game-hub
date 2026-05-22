@@ -45,16 +45,15 @@
 
   // 渲染游戏卡片
   function renderGameCard(game) {
+    var bg = THUMB_COLORS[game.category] || THUMB_COLORS.puzzle;
     return (
       '<a href="game.html?id=' +
       game.id +
       '" class="game-card">' +
-      '  <div class="game-thumb">' +
-      '    <img src="' +
-      game.thumbnail +
-      '" alt="' +
-      game.title +
-      '" loading="lazy" />' +
+      '  <div class="game-thumb" style="background:' + bg + '">' +
+      '    <span class="game-thumb-icon">' +
+      game.title.charAt(0) +
+      "</span>" +
       '    <span class="game-category-tag">' +
       game.category +
       "</span>" +

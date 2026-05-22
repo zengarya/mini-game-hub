@@ -1,230 +1,250 @@
 // Mini Game Hub - 游戏数据库
-// 每款游戏的数据格式：
-// {
-//   id: string,          // 唯一标识
-//   title: string,        // 游戏名称
-//   category: string,     // 分类: puzzle/action/arcade/strategy/sports/girls/board
-//   thumbnail: string,    // 缩略图URL (建议 300x200)
-//   embedUrl: string,     // iframe嵌入URL
-//   description: string,  // 简短描述 (英文, 150字以内)
-//   controls: string,     // 操作方式
-//   tags: string[]        // 标签
-// }
+// embedUrl 来源: play.gamepix.com (已验证可嵌入, 无 X-Frame-Options 限制)
+// 要添加新游戏: 在 https://play.gamepix.com/{slug}/embed?sid=mini-game-hub 验证 slug 是否有效
 
-const GAMES = [
-  // ===== Puzzle 益智类 =====
+// 每个分类的缩略图渐变色
+var THUMB_COLORS = {
+  puzzle:    "linear-gradient(135deg, #667eea, #764ba2)",
+  action:    "linear-gradient(135deg, #f093fb, #f5576c)",
+  arcade:    "linear-gradient(135deg, #4facfe, #00f2fe)",
+  strategy:  "linear-gradient(135deg, #43e97b, #38f9d7)",
+  sports:    "linear-gradient(135deg, #fa709a, #fee140)",
+  girls:     "linear-gradient(135deg, #f77062, #fe5196)",
+  board:     "linear-gradient(135deg, #a18cd1, #fbc2eb)",
+};
+
+var GAMES = [
+  // ===== Puzzle 益智类 (6款) =====
   {
     id: "bubble-shooter",
     title: "Bubble Shooter",
     category: "puzzle",
-    thumbnail: "https://img.gamesgx.com/upload/game/202310/653d1e4b3e31f.jpg",
-    embedUrl: "https://games.gamepix.com/play/39009?sid=mini-game-hub",
-    description: "Match three or more bubbles of the same color to clear the board. Classic bubble shooting puzzle game with hundreds of levels.",
-    controls: "Mouse to aim and shoot",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/bubble-shooter/embed?sid=mini-game-hub",
+    description: "Match three or more bubbles of the same color to clear the board. Classic bubble shooting puzzle game with hundreds of challenging levels that will keep you entertained for hours.",
+    controls: "Mouse to aim and click to shoot",
     tags: ["bubble", "match3", "classic", "colorful"],
-  },
-  {
-    id: "merge-fruit",
-    title: "Merge Fruit",
-    category: "puzzle",
-    thumbnail: "https://img.gamesgx.com/upload/game/202305/645a2c8e9e5a1.jpg",
-    embedUrl: "https://games.gamepix.com/play/40673?sid=mini-game-hub",
-    description: "Drop and merge identical fruits to create bigger ones. Suika-style merging puzzle that's easy to learn but hard to master.",
-    controls: "Mouse click to drop fruit",
-    tags: ["merge", "suika", "watermelon", "drop"],
   },
   {
     id: "2048",
     title: "2048",
     category: "puzzle",
-    thumbnail: "https://img.gamesgx.com/upload/game/202202/6203a1d8e5e0b.jpg",
-    embedUrl: "https://games.gamepix.com/play/40299?sid=mini-game-hub",
-    description: "Swipe to merge tiles with the same numbers. Reach the 2048 tile in this addictive number puzzle that never gets old.",
-    controls: "Arrow keys or swipe",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/2048/embed?sid=mini-game-hub",
+    description: "Swipe to merge tiles with the same numbers and reach the 2048 tile. This addictive number puzzle has taken the world by storm. Easy to learn, impossible to master.",
+    controls: "Arrow keys or swipe on touch screen",
     tags: ["number", "merge", "brain", "addictive"],
   },
   {
-    id: "solitaire-classic",
+    id: "solitaire",
     title: "Solitaire Classic",
     category: "puzzle",
-    thumbnail: "https://img.gamesgx.com/upload/game/202208/62f1a1d8e5e0c.jpg",
-    embedUrl: "https://games.gamepix.com/play/26860?sid=mini-game-hub",
-    description: "The classic Klondike Solitaire card game. Stack cards in descending order and alternate colors to clear the board.",
-    controls: "Mouse drag and drop cards",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/solitaire/embed?sid=mini-game-hub",
+    description: "The classic Klondike Solitaire card game loved by millions. Stack cards in descending order with alternating colors to clear the board and win.",
+    controls: "Mouse click and drag cards",
     tags: ["cards", "klondike", "classic", "relaxing"],
+  },
+  {
+    id: "mahjong",
+    title: "Mahjong Solitaire",
+    category: "puzzle",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/mahjong/embed?sid=mini-game-hub",
+    description: "Match pairs of identical mahjong tiles to clear the board. A beautiful and relaxing tile-matching puzzle game with hundreds of unique layouts to solve.",
+    controls: "Mouse click to select matching tile pairs",
+    tags: ["mahjong", "tiles", "matching", "zen"],
+  },
+  {
+    id: "sudoku",
+    title: "Sudoku Master",
+    category: "puzzle",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/sudoku/embed?sid=mini-game-hub",
+    description: "Fill the 9x9 grid so every row, column, and 3x3 box contains digits 1-9. Multiple difficulty levels from easy beginner puzzles to expert brain teasers.",
+    controls: "Mouse click to select cell, keyboard to enter number",
+    tags: ["number", "brain", "logic", "japanese"],
   },
   {
     id: "block-puzzle",
     title: "Block Puzzle",
     category: "puzzle",
-    thumbnail: "https://img.gamesgx.com/upload/game/202111/61a1d8e5e0b3a.jpg",
-    embedUrl: "https://games.gamepix.com/play/38900?sid=mini-game-hub",
-    description: "Drag and drop blocks onto the grid. Fill complete rows or columns to clear them. Simple yet satisfying block puzzle.",
-    controls: "Mouse drag and drop",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/block-puzzle/embed?sid=mini-game-hub",
+    description: "Drag and drop colorful blocks onto the grid. Fill complete rows or columns to clear them and earn points. Simple, satisfying, and endlessly replayable.",
+    controls: "Mouse drag and drop blocks",
     tags: ["block", "tetris", "grid", "brain"],
   },
-  {
-    id: "mahjong-solitaire",
-    title: "Mahjong Solitaire",
-    category: "puzzle",
-    thumbnail: "https://img.gamesgx.com/upload/game/202209/631a1d8e5e0d4.jpg",
-    embedUrl: "https://games.gamepix.com/play/35500?sid=mini-game-hub",
-    description: "Match pairs of identical mahjong tiles to remove them from the board. Beautiful tile-matching puzzle with hundreds of layouts.",
-    controls: "Mouse click to select tiles",
-    tags: ["mahjong", "tiles", "matching", "zen"],
-  },
 
-  // ===== Action 动作类 =====
+  // ===== Arcade 街机类 (5款) =====
   {
-    id: "subway-runner",
-    title: "Subway Runner",
-    category: "action",
-    thumbnail: "https://img.gamesgx.com/upload/game/202204/625a1d8e5e0e6.jpg",
-    embedUrl: "https://games.gamepix.com/play/38882?sid=mini-game-hub",
-    description: "Run through subway tracks, dodge trains, and collect coins. Fast-paced endless runner with colorful graphics and power-ups.",
-    controls: "Arrow keys: Up=jump, Down=slide, Left/Right=switch lanes",
-    tags: ["runner", "endless", "subway", "arcade"],
-  },
-  {
-    id: "stickman-fight",
-    title: "Stickman Fighter",
-    category: "action",
-    thumbnail: "https://img.gamesgx.com/upload/game/202211/637a1d8e5e0f7.jpg",
-    embedUrl: "https://games.gamepix.com/play/38000?sid=mini-game-hub",
-    description: "Battle waves of stickman enemies with epic combos. Fast-paced fighting game with simple controls and satisfying action.",
-    controls: "Arrow keys to move, A/S/D to attack",
-    tags: ["fighting", "stickman", "combat", "brawler"],
-  },
-
-  // ===== Arcade 街机类 =====
-  {
-    id: "snake-io",
-    title: "Snake.io",
+    id: "snake",
+    title: "Classic Snake",
     category: "arcade",
-    thumbnail: "https://img.gamesgx.com/upload/game/202201/61e1a1d8e5e09.jpg",
-    embedUrl: "https://games.gamepix.com/play/39500?sid=mini-game-hub",
-    description: "Eat glowing orbs to grow bigger and outmaneuver other snakes. Classic snake game meets multiplayer arena in this addictive .io game.",
-    controls: "Mouse to steer, left click to boost",
-    tags: ["snake", "io", "multiplayer", "arena"],
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/snake/embed?sid=mini-game-hub",
+    description: "Guide the snake to eat food and grow longer without hitting walls or yourself. The timeless arcade classic that started it all. How long can you survive?",
+    controls: "Arrow keys to change direction",
+    tags: ["snake", "classic", "retro", "endless"],
+  },
+  {
+    id: "tetris",
+    title: "Tetris",
+    category: "arcade",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/tetris/embed?sid=mini-game-hub",
+    description: "The legendary block-stacking puzzle game. Rotate and drop falling blocks to complete horizontal lines. Speed increases as you level up. A true classic.",
+    controls: "Arrow keys: Left/Right=move, Down=drop, Up=rotate",
+    tags: ["tetris", "blocks", "classic", "retro"],
   },
   {
     id: "flappy-bird",
     title: "Flappy Bird",
     category: "arcade",
-    thumbnail: "https://img.gamesgx.com/upload/game/202103/604a1d8e5e0a8.jpg",
-    embedUrl: "https://games.gamepix.com/play/40200?sid=mini-game-hub",
-    description: "Tap to flap your wings and fly between pipes. The legendary one-tap game that took the world by storm. How far can you go?",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/flappy-bird/embed?sid=mini-game-hub",
+    description: "Tap to flap your wings and fly between green pipes. The legendary one-tap game that took the world by storm. Simple controls, brutal difficulty, insanely addictive.",
     controls: "Space bar or mouse click to flap",
     tags: ["flappy", "one-tap", "classic", "difficult"],
   },
   {
-    id: "color-switch",
-    title: "Color Switch",
+    id: "pacman",
+    title: "Pacman",
     category: "arcade",
-    thumbnail: "https://img.gamesgx.com/upload/game/202306/648a1d8e5e10b.jpg",
-    embedUrl: "https://games.gamepix.com/play/40800?sid=mini-game-hub",
-    description: "Tap to bounce through color-matching obstacles. Only pass through shapes that match your color. Fast reflexes required.",
-    controls: "Space bar or tap to bounce",
-    tags: ["color", "reflex", "one-tap", "challenging"],
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/pacman/embed?sid=mini-game-hub",
+    description: "Navigate the maze, eat all the dots, and avoid the ghosts. The most iconic arcade game of all time, now playable right in your browser. Collect power pellets to fight back.",
+    controls: "Arrow keys to move Pacman",
+    tags: ["pacman", "maze", "retro", "ghosts"],
+  },
+  {
+    id: "fruit-ninja",
+    title: "Fruit Ninja",
+    category: "arcade",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/fruit-ninja/embed?sid=mini-game-hub",
+    description: "Slice flying fruit with your blade while avoiding bombs. Test your reflexes in this fast-paced fruit-slashing arcade game. Chain combos for bonus points.",
+    controls: "Mouse drag to slice fruit",
+    tags: ["fruit", "slice", "reflex", "sword"],
   },
 
-  // ===== Strategy 策略/模拟 =====
+  // ===== Action 动作类 (3款) =====
   {
-    id: "idle-factory",
-    title: "Idle Factory Tycoon",
-    category: "strategy",
-    thumbnail: "https://img.gamesgx.com/upload/game/202308/64d1a1d8e5e11c.jpg",
-    embedUrl: "https://games.gamepix.com/play/41000?sid=mini-game-hub",
-    description: "Build and manage your own factory empire. Upgrade machines, hire workers, and watch your profits grow in this satisfying idle game.",
-    controls: "Mouse click to interact",
-    tags: ["idle", "tycoon", "factory", "management"],
+    id: "subway-surfer",
+    title: "Subway Surfer",
+    category: "action",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/subway-surfer/embed?sid=mini-game-hub",
+    description: "Run through subway tracks at top speed. Dodge oncoming trains, jump over barriers, and collect coins in this thrilling endless runner with colorful HD graphics.",
+    controls: "Arrow keys: Up=jump, Down=slide, Left/Right=switch lanes",
+    tags: ["runner", "endless", "subway", "arcade"],
   },
   {
+    id: "temple-run",
+    title: "Temple Run",
+    category: "action",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/temple-run/embed?sid=mini-game-hub",
+    description: "Escape from the temple with a cursed idol. Run, jump, slide and turn through dangerous cliffs and ancient ruins. The original endless runner sensation.",
+    controls: "Arrow keys: Up=jump, Down=slide, Left/Right=turn",
+    tags: ["runner", "endless", "temple", "adventure"],
+  },
+  {
+    id: "stickman",
+    title: "Stickman Fighter",
+    category: "action",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/stickman/embed?sid=mini-game-hub",
+    description: "Battle waves of enemy stickmen with devastating combos and special moves. A fast-paced stickman fighting game with ragdoll physics and epic boss battles.",
+    controls: "Arrow keys to move, A/S/D keys to attack",
+    tags: ["fighting", "stickman", "combat", "brawler"],
+  },
+
+  // ===== Strategy 策略类 (2款) =====
+  {
     id: "tower-defense",
-    title: "Tower Defense Kingdom",
+    title: "Tower Defense",
     category: "strategy",
-    thumbnail: "https://img.gamesgx.com/upload/game/202210/634a1d8e5e12d.jpg",
-    embedUrl: "https://games.gamepix.com/play/38200?sid=mini-game-hub",
-    description: "Place towers strategically to defend your kingdom from waves of enemies. Upgrade your defenses and use special abilities.",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/tower-defense/embed?sid=mini-game-hub",
+    description: "Build and upgrade defensive towers to stop waves of invading enemies. Plan your strategy carefully, position towers wisely, and use special abilities to defend your kingdom.",
     controls: "Mouse click to place and upgrade towers",
     tags: ["tower-defense", "strategy", "defense", "war"],
   },
-
-  // ===== Sports 体育类 =====
   {
-    id: "basketball-stars",
-    title: "Basketball Stars",
-    category: "sports",
-    thumbnail: "https://img.gamesgx.com/upload/game/202207/62d1a1d8e5e13e.jpg",
-    embedUrl: "https://games.gamepix.com/play/38973?sid=mini-game-hub",
-    description: "Shoot hoops in this fast-paced basketball game. Dribble, shoot three-pointers, and dunk your way to victory in one-on-one matches.",
-    controls: "Arrow keys to move, Space to shoot",
-    tags: ["basketball", "sports", "competitive", "shooting"],
-  },
-  {
-    id: "soccer-dribble",
-    title: "Soccer Dribble",
-    category: "sports",
-    thumbnail: "https://img.gamesgx.com/upload/game/202212/638a1d8e5e14f.jpg",
-    embedUrl: "https://games.gamepix.com/play/39100?sid=mini-game-hub",
-    description: "Dribble past defenders and score amazing goals. Simple one-touch soccer game with satisfying physics and challenging levels.",
-    controls: "Mouse to aim and set power, click to shoot",
-    tags: ["soccer", "football", "sports", "goals"],
-  },
-
-  // ===== Girls 女生向 =====
-  {
-    id: "dress-up-star",
-    title: "Dress Up Star",
-    category: "girls",
-    thumbnail: "https://img.gamesgx.com/upload/game/202307/64b1a1d8e5e15d.jpg",
-    embedUrl: "https://games.gamepix.com/play/40700?sid=mini-game-hub",
-    description: "Create stunning outfits for fashion shows. Mix and match hundreds of clothing items, accessories, and hairstyles for the perfect look.",
-    controls: "Mouse click to select and drag items",
-    tags: ["fashion", "dress-up", "makeover", "style"],
-  },
-  {
-    id: "cake-maker",
-    title: "Cake Maker",
-    category: "girls",
-    thumbnail: "https://img.gamesgx.com/upload/game/202309/650a1d8e5e16e.jpg",
-    embedUrl: "https://games.gamepix.com/play/41200?sid=mini-game-hub",
-    description: "Bake and decorate delicious cakes from scratch. Mix ingredients, bake to perfection, and decorate with frosting and toppings.",
-    controls: "Mouse click and drag to interact",
-    tags: ["cooking", "baking", "food", "creative"],
-  },
-
-  // ===== Board 棋牌类 =====
-  {
-    id: "chess-master",
+    id: "chess",
     title: "Chess Master",
-    category: "board",
-    thumbnail: "https://img.gamesgx.com/upload/game/202203/622a1d8e5e17f.jpg",
-    embedUrl: "https://games.gamepix.com/play/40100?sid=mini-game-hub",
-    description: "Play chess against AI opponents of varying difficulty. Perfect for beginners learning the game or experienced players looking for a challenge.",
+    category: "strategy",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/chess/embed?sid=mini-game-hub",
+    description: "Play chess against a challenging AI opponent. Choose from multiple difficulty levels, from beginner to grandmaster. The ultimate strategy board game, now in your browser.",
     controls: "Mouse click to select and move pieces",
     tags: ["chess", "board", "strategy", "classic"],
   },
 
-  // ===== Merge 合并类 =====
+  // ===== Sports 体育类 (2款) =====
   {
-    id: "merge-monsters",
-    title: "Merge Monsters",
-    category: "puzzle",
-    thumbnail: "https://img.gamesgx.com/upload/game/202304/643a1d8e5e18g.jpg",
-    embedUrl: "https://games.gamepix.com/play/40500?sid=mini-game-hub",
-    description: "Merge identical monsters to evolve them into powerful new creatures. Collect, merge, and battle in this addictive monster evolution game.",
-    controls: "Mouse drag to merge monsters",
-    tags: ["merge", "monster", "evolution", "collecting"],
+    id: "basketball",
+    title: "Basketball Stars",
+    category: "sports",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/basketball/embed?sid=mini-game-hub",
+    description: "Shoot hoops and score big in fast-paced basketball action. Dribble past defenders, nail three-pointers, and pull off spectacular dunks in competitive one-on-one matches.",
+    controls: "Arrow keys to move, Space to shoot",
+    tags: ["basketball", "sports", "competitive", "shooting"],
+  },
+  {
+    id: "soccer",
+    title: "Soccer Stars",
+    category: "sports",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/soccer/embed?sid=mini-game-hub",
+    description: "Score amazing goals in this fast-paced soccer game. Dribble around opponents, aim your shots perfectly, and become the champion of the pitch.",
+    controls: "Arrow keys to move, Space to kick",
+    tags: ["soccer", "football", "sports", "goals"],
+  },
+
+  // ===== Girls 女生向 (2款) =====
+  {
+    id: "dress-up",
+    title: "Dress Up Star",
+    category: "girls",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/dress-up/embed?sid=mini-game-hub",
+    description: "Design stunning outfits and create the perfect look. Mix and match hundreds of clothing items, accessories, and hairstyles. Unleash your inner fashion designer.",
+    controls: "Mouse click to select and drag clothing items",
+    tags: ["fashion", "dress-up", "makeover", "style"],
+  },
+  {
+    id: "cooking",
+    title: "Cooking Fever",
+    category: "girls",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/cooking/embed?sid=mini-game-hub",
+    description: "Cook delicious dishes and serve hungry customers before time runs out. Master recipes, upgrade your kitchen, and build your own restaurant empire.",
+    controls: "Mouse click to cook and serve",
+    tags: ["cooking", "food", "time-management", "restaurant"],
+  },
+
+  // ===== Board 棋牌类 (1款) =====
+  {
+    id: "memory",
+    title: "Memory Match",
+    category: "board",
+    thumbnail: "",
+    embedUrl: "https://play.gamepix.com/memory/embed?sid=mini-game-hub",
+    description: "Flip cards and find matching pairs in this classic memory game. Test and improve your concentration with increasingly challenging levels. Fun for all ages.",
+    controls: "Mouse click to flip cards",
+    tags: ["memory", "matching", "cards", "brain"],
   },
 ];
 
-// 分类配置：名称、图标、slug
-const CATEGORIES = [
+// 分类配置
+var CATEGORIES = [
   { name: "All Games", slug: "all", icon: "🎮" },
   { name: "Puzzle", slug: "puzzle", icon: "🧩" },
-  { name: "Action", slug: "action", icon: "⚡" },
   { name: "Arcade", slug: "arcade", icon: "🕹️" },
+  { name: "Action", slug: "action", icon: "⚡" },
   { name: "Strategy", slug: "strategy", icon: "🏰" },
   { name: "Sports", slug: "sports", icon: "⚽" },
   { name: "Girls", slug: "girls", icon: "💖" },
@@ -232,13 +252,13 @@ const CATEGORIES = [
 ];
 
 // 热门标签
-const POPULAR_TAGS = [
-  "merge",
-  "puzzle",
+var POPULAR_TAGS = [
   "classic",
+  "puzzle",
   "runner",
-  "io",
-  "idle",
+  "brain",
+  "retro",
   "cards",
+  "endless",
   "fashion",
 ];

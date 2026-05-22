@@ -82,16 +82,15 @@
 
   document.getElementById("related-games").innerHTML = related
     .map(function (g) {
+      var bg = THUMB_COLORS[g.category] || THUMB_COLORS.puzzle;
       return (
         '<a href="game.html?id=' +
         g.id +
         '" class="game-card">' +
-        '  <div class="game-thumb">' +
-        '    <img src="' +
-        g.thumbnail +
-        '" alt="' +
-        g.title +
-        '" loading="lazy" />' +
+        '  <div class="game-thumb" style="background:' + bg + '">' +
+        '    <span class="game-thumb-icon">' +
+        g.title.charAt(0) +
+        "</span>" +
         "  </div>" +
         '  <div class="game-info">' +
         '    <h3 class="game-title">' +
