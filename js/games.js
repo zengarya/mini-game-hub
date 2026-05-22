@@ -64,6 +64,16 @@ var GAMES = [
     controls: "Move mouse to control paddle",
     tags: ["paddle", "classic", "retro", "competitive"],
   },
+  {
+    id: "simon-says",
+    title: "Simon Says",
+    category: "arcade",
+    thumbnail: "",
+    embedUrl: "games/simon-says.html",
+    description: "Watch the colored buttons light up, then repeat the pattern from memory. Each round adds one more step. How many levels can you remember?",
+    controls: "Mouse click to repeat the pattern",
+    tags: ["memory", "pattern", "color", "brain"],
+  },
 
   // ===== Puzzle 益智类 =====
   {
@@ -116,6 +126,36 @@ var GAMES = [
     controls: "Move mouse to aim, click to shoot",
     tags: ["bubble", "shooter", "match3", "colorful"],
   },
+  {
+    id: "color-crush",
+    title: "Color Crush",
+    category: "puzzle",
+    thumbnail: "",
+    embedUrl: "games/color-crush.html",
+    description: "Swap adjacent colored tiles to make groups of 3 or more. Crush matching colors, rack up combos, and clear the board in this addictive puzzle.",
+    controls: "Click two adjacent tiles to swap them",
+    tags: ["match3", "swap", "colorful", "puzzle"],
+  },
+  {
+    id: "solitaire-lite",
+    title: "Solitaire Lite",
+    category: "puzzle",
+    thumbnail: "",
+    embedUrl: "games/solitaire-lite.html",
+    description: "Match pairs of identical playing cards from the deck. A simplified solitaire-style memory game with hearts, diamonds, spades, and clubs.",
+    controls: "Click cards to select and match pairs",
+    tags: ["cards", "solitaire", "matching", "brain"],
+  },
+  {
+    id: "number-guess",
+    title: "Number Guess",
+    category: "puzzle",
+    thumbnail: "",
+    embedUrl: "games/number-guess.html",
+    description: "Guess the secret number between 1 and 100. Get clues after each guess: too high or too low. Can you find it in under 10 tries?",
+    controls: "Type a number and press Enter or click Guess",
+    tags: ["number", "guess", "brain", "logic"],
+  },
 
   // ===== Action 动作类 =====
   {
@@ -127,6 +167,50 @@ var GAMES = [
     description: "Whack those moles as fast as you can! Test your reflexes in this frantic 30-second arcade game. Click moles before they hide. How many can you hit?",
     controls: "Mouse click to whack moles",
     tags: ["whack", "mole", "reflex", "speed"],
+  },
+  {
+    id: "speed-tap",
+    title: "Speed Tap",
+    category: "action",
+    thumbnail: "",
+    embedUrl: "games/speed-tap.html",
+    description: "Tap the circle as many times as possible in 10 seconds! A pure reflex test — the circle changes color with every hit. Beat your high score.",
+    controls: "Click or tap the circle rapidly",
+    tags: ["speed", "reflex", "tap", "clicker"],
+  },
+  {
+    id: "car-dodge",
+    title: "Car Dodge",
+    category: "action",
+    thumbnail: "",
+    embedUrl: "games/car-dodge.html",
+    description: "Steer your car through traffic at high speed. Dodge oncoming vehicles and survive as long as you can. Speed increases as your score rises.",
+    controls: "Arrow keys or mouse to move left/right",
+    tags: ["racing", "dodge", "reflex", "endless"],
+  },
+
+  // ===== Word 文字类 =====
+  {
+    id: "word-guess",
+    title: "Word Guess",
+    category: "word",
+    thumbnail: "",
+    embedUrl: "games/word-guess.html",
+    description: "Guess the hidden word one letter at a time. Each wrong guess costs a life. Complete words to build your streak. Fun vocabulary challenge.",
+    controls: "Type a letter and press Enter or click Guess",
+    tags: ["word", "hangman", "vocabulary", "brain"],
+  },
+
+  // ===== Strategy 策略类 =====
+  {
+    id: "connect-four",
+    title: "Connect Four",
+    category: "strategy",
+    thumbnail: "",
+    embedUrl: "games/connect-four.html",
+    description: "Drop colored discs into the grid and connect four in a row to win. Play against the computer AI in this classic strategy game. Vertical, horizontal, or diagonal!",
+    controls: "Click a column to drop your disc",
+    tags: ["connect", "strategy", "board", "competitive"],
   },
 ];
 

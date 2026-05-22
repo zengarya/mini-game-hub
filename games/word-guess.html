@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Word Guess</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center;max-width:420px;padding:20px}
+#title{color:#fff;font-size:24px;font-weight:700;margin-bottom:16px}
+#hint{color:#8a8aaa;font-size:16px;margin-bottom:8px;min-height:24px}
+#word{font-size:36px;letter-spacing:10px;color:#ffd93d;font-weight:800;margin-bottom:16px;min-height:50px}
+#guesses{color:#6a6a8a;font-size:14px;margin-bottom:12px;min-height:20px}
+#lives{color:#ff6b6b;font-size:20px;margin-bottom:16px}
+#input{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
+#input input{width:50px;height:50px;font-size:24px;text-align:center;background:#1a1a2e;color:#fff;border:2px solid #2a2a4a;border-radius:8px;outline:none;text-transform:uppercase}
+#input input:focus{border-color:#ffd93d}
+#input button{height:50px;padding:0 20px;background:#ff6b6b;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer}
+#msg{color:#43e97b;font-size:18px;font-weight:600;margin-bottom:16px;min-height:28px}
+button.newgame{padding:10px 28px;font-size:16px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="title">Word Guess</div>
+<div id="hint"></div>
+<div id="word"></div>
+<div id="guesses"></div>
+<div id="lives"></div>
+<div id="msg"></div>
+<div id="input"><input type="text" maxlength="1" id="letter" autocomplete="off"><button onclick="guess()">Guess</button></div>
+<button class="newgame" onclick="reset()">New Word</button>
+</div>
+<script>
+var WORDS=[{word:"PYTHON",hint:"A popular programming language"},{word:"GAMING",hint:"Playing video games for fun"},{word:"PUZZLE",hint:"Something that challenges your brain"},{word:"ARCADE",hint:"A place with coin-operated games"},{word:"DIGITAL",hint:"Relating to computers or technology"},{word:"ONLINE",hint:"Connected to the internet"},{word:"SCORE",hint:"Points earned in a game"},{word:"PLAYER",hint:"Someone who participates in a game"},{word:"STACK",hint:"Pile things on top of each other"},{word:"BUBBLE",hint:"A round ball of air or soap"},{word:"GENIUS",hint:"An exceptionally intelligent person"},{word:"VICTORY",hint:"Winning a game or competition"}];
+var word,hint,guessed,misses,maxMisses=6;
+function reset(){var w=WORDS[Math.floor(Math.random()*WORDS.length)];word=w.word;hint=w.hint;guessed=[];misses=0;document.getElementById("hint").textContent="Hint: "+hint;document.getElementById("msg").textContent="";document.getElementById("letter").value="";document.getElementById("letter").focus();render()}
+function guess(){var inp=document.getElementById("letter");var ch=inp.value.toUpperCase().trim();inp.value="";if(!ch||ch.length!==1||guessed.indexOf(ch)!==-1)return;guessed.push(ch);if(word.indexOf(ch)===-1)misses++;if(checkWin()){document.getElementById("msg").textContent="You Win! 🎉 "}else if(misses>=maxMisses){document.getElementById("msg").textContent="Game Over! Word was: "+word;document.getElementById("word").textContent=word}else{document.getElementById("msg").textContent=""}render()}
+function checkWin(){for(var i=0;i<word.length;i++)if(guessed.indexOf(word[i])===-1)return false;return true}
+function render(){var w="";for(var i=0;i<word.length;i++)w+=(guessed.indexOf(word[i])!==-1?word[i]:"_")+" ";document.getElementById("word").textContent=w.trim();document.getElementById("guesses").textContent="Tried: "+guessed.join(" ");var livesLeft=maxMisses-misses;var hearts="";for(var j=0;j<livesLeft;j++)hearts+="❤️";document.getElementById("lives").textContent=hearts+" ("+livesLeft+" left)"}
+document.getElementById("letter").addEventListener("keydown",function(e){if(e.key==="Enter")guess()});
+reset();
+</script>
+</body>
+</html>

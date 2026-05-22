@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Number Guess</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center;max-width:400px;padding:20px}
+#title{color:#fff;font-size:24px;font-weight:700;margin-bottom:8px}
+#hint{color:#8a8aaa;font-size:16px;margin-bottom:16px}
+#feedback{font-size:20px;font-weight:600;margin-bottom:12px;min-height:30px;color:#ffd93d}
+#guesses{color:#6a6a8a;font-size:14px;margin-bottom:16px;min-height:20px;max-height:120px;overflow-y:auto}
+#input{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
+#input input{width:100px;height:50px;font-size:22px;text-align:center;background:#1a1a2e;color:#fff;border:2px solid #2a2a4a;border-radius:8px;outline:none}
+#input input:focus{border-color:#4facfe}
+#input button{height:50px;padding:0 20px;background:#4facfe;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer}
+#streak{color:#43e97b;font-size:16px;margin-bottom:12px;min-height:24px}
+button.newgame{padding:10px 28px;font-size:16px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="title">Number Guess</div>
+<div id="hint">Guess a number between 1 and 100</div>
+<div id="feedback"></div>
+<div id="guesses"></div>
+<div id="streak"></div>
+<div id="input"><input type="number" id="num" min="1" max="100" autocomplete="off"><button onclick="guess()">Guess</button></div>
+<button class="newgame" onclick="reset()">New Number</button>
+</div>
+<script>
+var target,max,guesses,streak=0;
+function reset(){target=Math.floor(Math.random()*100)+1;max=100;guesses=[];document.getElementById("feedback").textContent="";document.getElementById("guesses").textContent="";document.getElementById("hint").textContent="Guess a number between 1 and 100";document.getElementById("num").value="";document.getElementById("num").focus()}
+function guess(){var inp=document.getElementById("num");var n=parseInt(inp.value);inp.value="";if(isNaN(n)||n<1||n>max)return;guesses.push(n);document.getElementById("guesses").textContent="Your guesses: "+guesses.join(", ");if(n===target){document.getElementById("feedback").textContent="Correct! The number is "+target+" 🎉";document.getElementById("feedback").style.color="#43e97b";streak++;document.getElementById("streak").textContent=streak>1?"Streak: "+streak+" wins in a row!":""}else if(n<target){document.getElementById("feedback").textContent="Too low! Try higher 📈";document.getElementById("feedback").style.color="#ffd93d"}else{document.getElementById("feedback").textContent="Too high! Try lower 📉";document.getElementById("feedback").style.color="#ff6b6b"}if(guesses.length>=10&&n!==target){document.getElementById("feedback").textContent="Game Over! The number was "+target;document.getElementById("feedback").style.color="#ff6b6b";streak=0;document.getElementById("streak").textContent=""}}
+document.getElementById("num").addEventListener("keydown",function(e){if(e.key==="Enter")guess()});
+reset();
+</script>
+</body>
+</html>

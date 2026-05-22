@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Connect Four</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center}
+#info{color:#fff;font-size:20px;font-weight:700;margin-bottom:12px}
+#board{display:grid;grid-template-columns:repeat(7,56px);grid-template-rows:repeat(6,56px);gap:4px;background:#1a1a2e;padding:6px;border-radius:8px;margin:0 auto 16px}
+.cell{width:56px;height:56px;border-radius:50%;background:#2a2a4a;cursor:pointer;transition:background 0.2s}
+.cell.red{background:#ff6b6b}
+.cell.blue{background:#4facfe}
+.cell:hover{background:#3a3a5a}
+.cell.red:hover{background:#ff6b6b}
+.cell.blue:hover{background:#4facfe}
+#col-hint{display:flex;gap:4px;margin-bottom:8px}
+#col-hint div{width:56px;text-align:center;color:#4facfe;font-size:36px;opacity:0;transition:opacity 0.15s}
+#col-hint div.show{opacity:1}
+button{padding:10px 28px;font-size:16px;background:#ff6b6b;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="info">Your turn 🔴</div>
+<div id="col-hint"></div>
+<div id="board"></div>
+<button onclick="reset()">New Game</button>
+</div>
+<script>
+var ROWS=6,COLS=7,board,turn,gameOver;
+function reset(){board=[];for(var r=0;r<ROWS;r++){board[r]=[];for(var c=0;c<COLS;c++)board[r][c]=0}turn=1;gameOver=false;document.getElementById("info").textContent="Your turn 🔴";render()}
+function drop(col){if(gameOver||board[0][col]!==0)return;for(var r=ROWS-1;r>=0;r--){if(board[r][col]===0){board[r][col]=turn;if(checkWin(r,col)){gameOver=true;document.getElementById("info").textContent=(turn===1?"You Win! 🎉":"AI Wins! 💻")}else{turn=turn===1?2:1;document.getElementById("info").textContent=turn===1?"Your turn 🔴":"AI thinking... 💙";if(turn===2){setTimeout(aiMove,400)}}break}}render()}
+function aiMove(){if(gameOver)return;var col=Math.floor(Math.random()*COLS);while(board[0][col]!==0)col=Math.floor(Math.random()*COLS);drop(col)}
+function checkWin(r,c){var p=board[r][c],dirs=[[0,1],[1,0],[1,1],[1,-1]];for(var d=0;d<4;d++){var count=1;for(var i=1;i<4;i++){var nr=r+dirs[d][0]*i,nc=c+dirs[d][1]*i;if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS&&board[nr][nc]===p)count++}for(var i=1;i<4;i++){var nr=r-dirs[d][0]*i,nc=c-dirs[d][1]*i;if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS&&board[nr][nc]===p)count++}if(count>=4)return true}return false}
+function render(){var b=document.getElementById("board"),ch=document.getElementById("col-hint");b.innerHTML="";ch.innerHTML="";for(var c=0;c<COLS;c++){var d=document.createElement("div");d.className="cell";d.style.color="#4facfe";ch.appendChild(d)}for(var r=0;r<ROWS;r++)for(var c=0;c<COLS;c++){var d=document.createElement("div");d.className="cell";if(board[r][c]===1)d.classList.add("red");if(board[r][c]===2)d.classList.add("blue");d.addEventListener("click",(function(col){return function(){drop(col)}})(c));b.appendChild(d)}}
+reset();
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Car Dodge</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center}
+#score{color:#fff;font-size:22px;font-weight:700;margin-bottom:8px}
+#speed{color:#8a8aaa;font-size:14px;margin-bottom:8px}
+canvas{border:2px solid #333;border-radius:4px}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="score">Score: 0</div>
+<div id="speed">Speed: 1x</div>
+<canvas id="c"></canvas>
+</div>
+<script>
+var c=document.getElementById("c"),ctx=c.getContext("2d"),W=360,H=520;
+c.width=W;c.height=H;c.style.maxWidth="95vw";c.style.maxHeight="85vh";
+var car={x:W/2-20,y:H-80,w:40,h:64},obstacles=[],score=0,speed=4,roadMark=0,gameOver=false;
+function reset(){car.x=W/2-20;obstacles=[];score=0;speed=4;roadMark=0;gameOver=false;document.getElementById("score").textContent="Score: 0";document.getElementById("speed").textContent="Speed: 1x"}
+function spawn(){var lanes=[50,130,210,290];var lane=lanes[Math.floor(Math.random()*4)];obstacles.push({x:lane,y:-60,w:40,h:60})}
+function update(){if(gameOver)return;roadMark+=speed;if(roadMark>40)roadMark=0;for(var i=obstacles.length-1;i>=0;i--){obstacles[i].y+=speed;if(obstacles[i].y>H){obstacles.splice(i,1);score++;document.getElementById("score").textContent="Score: "+score;if(score%20===0){speed+=0.5;document.getElementById("speed").textContent="Speed: "+(speed/4).toFixed(1)+"x"}}}if(obstacles.length===0||obstacles[obstacles.length-1].y>120+Math.random()*100)spawn();for(var i=0;i<obstacles.length;i++){var o=obstacles[i];if(car.x<o.x+o.w&&car.x+car.w>o.x&&car.y<o.y+o.h&&car.y+car.h>o.y){gameOver=true}}}
+function draw(){ctx.fillStyle="#2d2d2d";ctx.fillRect(0,0,W,H);ctx.fillStyle="#333";for(var i=0;i<H;i+=40){ctx.fillRect(W/2-4,((i+roadMark)%40)-20,8,20)}ctx.fillStyle="#4facfe";ctx.fillRect(car.x,car.y,car.w,car.h);ctx.fillStyle="#ff6b6b";obstacles.forEach(function(o){ctx.fillRect(o.x,o.y,o.w,o.h)});if(gameOver){ctx.fillStyle="rgba(0,0,0,0.6)";ctx.fillRect(0,0,W,H);ctx.fillStyle="#fff";ctx.font="24px Arial";ctx.textAlign="center";ctx.fillText("Crashed! Score: "+score,W/2,H/2-10);ctx.font="14px Arial";ctx.fillText("Press Space to retry",W/2,H/2+20);ctx.textAlign="start"}}
+function loop(){update();draw();requestAnimationFrame(loop)}
+document.addEventListener("keydown",function(e){if(gameOver&&e.code==="Space"){reset()}if(gameOver)return;if(e.key==="ArrowLeft")car.x=Math.max(30,car.x-40);if(e.key==="ArrowRight")car.x=Math.min(W-70,car.x+40)});
+c.addEventListener("click",function(e){if(gameOver)reset();var rect=c.getBoundingClientRect();var mx=(e.clientX-rect.left)*(W/rect.width);car.x=Math.max(30,Math.min(W-70,mx-car.w/2))});
+c.addEventListener("mousemove",function(e){if(gameOver)return;var rect=c.getBoundingClientRect();car.x=Math.max(30,Math.min(W-70,(e.clientX-rect.left)*(W/rect.width)-car.w/2))});
+reset();loop();
+</script>
+</body>
+</html>

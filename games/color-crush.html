@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Color Crush</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center}
+#score{color:#fff;font-size:22px;font-weight:700;margin-bottom:12px}
+#board{display:grid;grid-template-columns:repeat(8,48px);grid-template-rows:repeat(8,48px);gap:3px;background:#1a1a2e;padding:4px;border-radius:8px;margin-bottom:16px}
+.cell{width:48px;height:48px;border-radius:6px;cursor:pointer;transition:transform 0.1s}
+.cell:active{transform:scale(0.9)}
+.cell.selected{box-shadow:0 0 0 3px #fff}
+#msg{color:#43e97b;font-size:16px;margin-bottom:8px;min-height:24px}
+button{padding:10px 28px;font-size:16px;background:#ff6b6b;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="score">Score: 0</div>
+<div id="board"></div>
+<div id="msg"></div>
+<button onclick="reset()">New Game</button>
+</div>
+<script>
+var R=8,C=8,COLORS=["#ff4757","#1e90ff","#2ed573","#ffa502","#a55eea","#ff6348"],board,score,selR=-1,selC=-1;
+function reset(){board=[];for(var r=0;r<R;r++){board[r]=[];for(var c=0;c<C;c++)board[r][c]=Math.floor(Math.random()*COLORS.length)}selR=-1;selC=-1;score=0;document.getElementById("score").textContent="Score: 0";document.getElementById("msg").textContent="";fix()}
+function fix(){var done;do{done=true;for(var c=0;c<C;c++){for(var r=R-1;r>=0;r--){if(board[r][c]===-1){for(var rr=r-1;rr>=0;rr--){if(board[rr][c]!==-1){board[r][c]=board[rr][c];board[rr][c]=-1;break}}}if(board[r][c]===-1)board[r][c]=Math.floor(Math.random()*COLORS.length)}}for(var r=0;r<R;r++)for(var c=0;c<C-2;c++){if(board[r][c]===board[r][c+1]&&board[r][c]===board[r][c+2]){done=false}}}while(!done)}
+function select(r,c){if(selR===-1){selR=r;selC=c;render();return}if(selR===r&&selC===c){selR=-1;selC=-1;render();return}swap(selR,selC,r,c)}
+function swap(r1,c1,r2,c2){var t=board[r1][c1];board[r1][c1]=board[r2][c2];board[r2][c2]=t;var matches=findMatches();if(matches.length===0){var t2=board[r1][c1];board[r1][c1]=board[r2][c2];board[r2][c2]=t2}else{removeMatches(matches)}selR=-1;selC=-1;render()}
+function findMatches(){var m=[];for(var r=0;r<R;r++)for(var c=0;c<C-2;c++){if(board[r][c]!==-1&&board[r][c]===board[r][c+1]&&board[r][c]===board[r][c+2]){var j=c;while(j<C&&board[r][j]===board[r][c]){var found=false;for(var k=0;k<m.length;k++)if(m[k].r===r&&m[k].c===j){found=true;break}if(!found)m.push({r:r,c:j});j++}}}for(var c=0;c<C;c++)for(var r=0;r<R-2;r++){if(board[r][c]!==-1&&board[r][c]===board[r+1][c]&&board[r][c]===board[r+2][c]){var j=r;while(j<R&&board[j][c]===board[r][c]){var found=false;for(var k=0;k<m.length;k++)if(m[k].r===j&&m[k].c===c){found=true;break}if(!found)m.push({r:j,c:c});j++}}}return m}
+function removeMatches(matches){score+=matches.length*10;document.getElementById("score").textContent="Score: "+score;for(var i=0;i<matches.length;i++)board[matches[i].r][matches[i].c]=-1;fix();var m2=findMatches();if(m2.length>0)removeMatches(m2)}
+function render(){var b=document.getElementById("board");b.innerHTML="";for(var r=0;r<R;r++)for(var c=0;c<C;c++){var d=document.createElement("div");d.className="cell";d.style.background=COLORS[board[r][c]];if(r===selR&&c===selC)d.classList.add("selected");d.addEventListener("click",(function(rr,cc){return function(){select(rr,cc)}})(r,c));b.appendChild(d)}}
+reset();
+</script>
+</body>
+</html>

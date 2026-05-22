@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Simon Says</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f1a;display:flex;align-items:center;justify-content:center;height:100vh;overflow:hidden;font-family:Arial}
+#wrap{text-align:center}
+#info{color:#fff;font-size:20px;font-weight:700;margin-bottom:20px;min-height:30px}
+#pads{display:grid;grid-template-columns:repeat(2,100px);grid-template-rows:repeat(2,100px);gap:12px;justify-content:center;margin-bottom:20px}
+.pad{width:100px;height:100px;border-radius:12px;cursor:pointer;transition:transform 0.1s,opacity 0.1s}
+.pad:active,.pad.active{transform:scale(0.93);opacity:0.7}
+.pad.red{background:#ff4757}
+.pad.blue{background:#1e90ff}
+.pad.green{background:#2ed573}
+.pad.yellow{background:#ffa502}
+#score{color:#8a8aaa;font-size:16px;margin-bottom:12px}
+button{padding:10px 28px;font-size:16px;background:#667eea;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="info">Watch the pattern...</div>
+<div id="pads">
+<div class="pad red" onclick="playerTap(0)"></div>
+<div class="pad blue" onclick="playerTap(1)"></div>
+<div class="pad green" onclick="playerTap(2)"></div>
+<div class="pad yellow" onclick="playerTap(3)"></div>
+</div>
+<div id="score">Level: 1</div>
+<button onclick="reset()">New Game</button>
+</div>
+<script>
+var sequence=[],playerIdx=0,level=1,showing=false,pads;
+function reset(){sequence=[];playerIdx=0;level=1;document.getElementById("score").textContent="Level: 1";addStep();showSequence()}
+function addStep(){sequence.push(Math.floor(Math.random()*4))}
+function showSequence(){showing=true;playerIdx=0;document.getElementById("info").textContent="Watch the pattern...";var i=0;var iv=setInterval(function(){light(sequence[i]);i++;if(i>=sequence.length){clearInterval(iv);showing=false;playerIdx=0;document.getElementById("info").textContent="Your turn! Repeat the pattern"}},600)}
+function light(n){var pads=document.querySelectorAll(".pad");pads[n].classList.add("active");setTimeout(function(){pads[n].classList.remove("active")},300)}
+function playerTap(n){if(showing||sequence.length===0)return;light(n);if(sequence[playerIdx]!==n){document.getElementById("info").textContent="Wrong! Game Over at Level "+level;level=1;sequence=[];return}playerIdx++;if(playerIdx>=sequence.length){level++;document.getElementById("score").textContent="Level: "+level;addStep();setTimeout(showSequence,800)}}
+reset();
+</script>
+</body>
+</html>
