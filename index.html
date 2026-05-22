@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Game Hub - Play Free Online Games</title>
+  <meta name="description" content="Play 20+ free online mini games directly in your browser. Puzzle, action, arcade, sports, and more. No download, no registration required." />
+  <meta name="keywords" content="free online games, browser games, mini games, puzzle games, arcade games, HTML5 games, no download" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://mini-game-hub.vercel.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Mini Game Hub" />
+  <meta property="og:title" content="Mini Game Hub - Play Free Online Games" />
+  <meta property="og:description" content="Play 20+ free online mini games directly in your browser. No download, no registration required." />
+  <meta property="og:image" content="https://mini-game-hub.vercel.app/og-image.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mini-game-hub.vercel.app/" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">Mini<span>Game</span>Hub</a>
+
+      <div class="search-box">
+        <span class="search-icon">&#x1F50D;</span>
+        <input type="text" id="search-input" placeholder="Search games..." />
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Free Online Mini Games</h1>
+    <p>Play instantly in your browser — no download, no sign-up. New games added every week.</p>
+  </section>
+
+  <!-- Category Tabs -->
+  <div class="container">
+    <nav class="cat-tabs" id="category-tabs"></nav>
+    <div class="search-hint" id="search-hint"></div>
+  </div>
+
+  <!-- Game Grid -->
+  <main class="container">
+    <div class="game-grid" id="game-grid"></div>
+  </main>
+
+  <!-- Popular Tags -->
+  <section class="container">
+    <div class="popular-tags">
+      <h3>Popular Tags</h3>
+      <div id="popular-tags"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Mini Game Hub. All games are property of their respective owners.</p>
+      <p style="margin-top:4px">
+        <a href="/">Home</a> &middot;
+        <a href="/about.html">About</a> &middot;
+        <a href="/privacy.html">Privacy Policy</a> &middot;
+        DMCA: contact@mini-game-hub.vercel.app
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/games.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

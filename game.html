@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play Game - Mini Game Hub</title>
+  <meta name="description" content="Play this free online game instantly in your browser. No download required." />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Mini Game Hub" />
+  <meta property="og:title" content="Play Game - Mini Game Hub" />
+  <meta property="og:description" content="Play this free online game instantly in your browser." />
+  <meta property="og:image" content="" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">Mini<span>Game</span>Hub</a>
+      <div class="search-box">
+        <span class="search-icon">&#x1F50D;</span>
+        <input type="text" id="search-input" placeholder="Search games..." onkeydown="if(event.key==='Enter'){var q=this.value.trim();if(q)window.location='/?search='+encodeURIComponent(q);}" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Game Detail -->
+  <main class="container">
+    <div id="game-container">
+      <div class="game-detail">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb" id="breadcrumb"></div>
+
+        <!-- Layout: Game + Sidebar -->
+        <div class="game-detail-layout">
+
+          <!-- Game Player -->
+          <div class="game-player">
+            <div class="player-toolbar">
+              <span class="game-name" id="game-title">Loading...</span>
+              <button class="btn-fullscreen" id="btn-fullscreen">&#x26F6; Fullscreen</button>
+            </div>
+            <div class="game-iframe-wrap">
+              <iframe id="game-iframe" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
+            </div>
+            <!-- Ad slot below game -->
+            <div class="ad-slot" style="min-height:90px; width:100%;">
+              <!-- Google AdSense: 970x90 or responsive -->
+              Ad Placement
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="game-sidebar">
+            <!-- Ad slot top -->
+            <div class="ad-slot" style="min-height:180px; margin-bottom:16px;">
+              <!-- Google AdSense: 300x250 -->
+              Ad 300x250
+            </div>
+
+            <!-- Game Info -->
+            <div class="game-meta">
+              <h2 id="game-title-sidebar">Game Info</h2>
+              <div class="meta-row">
+                <div class="meta-label">Category</div>
+                <div class="meta-value" id="game-category">-</div>
+              </div>
+              <div class="meta-row">
+                <div class="meta-label">Description</div>
+                <div class="meta-value" id="game-description">-</div>
+              </div>
+              <div class="meta-row">
+                <div class="meta-label">Tags</div>
+                <div class="meta-value" id="game-tags">-</div>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="game-controls-box">
+              <h3>Controls</h3>
+              <p id="game-controls">-</p>
+            </div>
+
+            <!-- Ad slot bottom -->
+            <div class="ad-slot" style="min-height:200px; margin-bottom:16px;">
+              <!-- Google AdSense: 300x250 -->
+              Ad 300x250
+            </div>
+          </aside>
+
+        </div>
+      </div>
+
+      <!-- Related Games -->
+      <section class="related-section">
+        <h2>More Games You'll Like</h2>
+        <div class="related-grid" id="related-games"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Mini Game Hub. All games are property of their respective owners.</p>
+      <p style="margin-top:4px">
+        <a href="/">Home</a> &middot;
+        <a href="/about.html">About</a> &middot;
+        <a href="/privacy.html">Privacy Policy</a> &middot;
+        DMCA: contact@mini-game-hub.vercel.app
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/games.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
